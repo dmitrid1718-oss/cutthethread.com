@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cut The Thread — Buddhist Emotional Untangling & Mindfulness Tools</title>
+
+    <!-- Social / OpenGraph Meta Tags for CutTheThread.com -->
+    <meta name="description" content="Recognize the first arrow, cut the second arrow. Practice Buddhist emotional untangling with R.A.I.N., Prajna Quick Cut, and interactive mindfulness tools.">
+    <meta property="og:title" content="Cut The Thread — Emotional Untangling Tools">
+    <meta property="og:description" content="Sever unnecessary mental loops using ancient Buddhist philosophy and modern interactive practice tools.">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bamboo: {
+                            50: '#f2f9f5',
+                            100: '#e1f2e8',
+                            400: '#52b788',
+                            500: '#3b8360',
+                            600: '#2d694c',
+                            800: '#1e4835',
+                            900: '#143325',
+                            950: '#0b1d15',
+                        },
+                        stone: {
+                            850: '#1f1e1b',
+                            900: '#181715',
+                            950: '#0d0d0c'
+                        },
+                        bronze: {
+                            400: '#e5b869',
+                            500: '#b8823b',
+                            600: '#946328'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Merriweather', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js for Insights -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom Animations */
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.12); opacity: 1; }
+        }
+        .animate-pulse-slow {
+            animation: pulse-slow 6s ease-in-out infinite;
+        }
+
+        @keyframes breathe-circle {
+            0%, 100% { transform: scale(0.85); opacity: 0.6; }
+            50% { transform: scale(1.25); opacity: 1; }
+        }
+        .animate-breathe {
+            animation: breathe-circle 8s ease-in-out infinite;
+        }
+
+        #cutCanvas {
+            touch-action: none;
+            cursor: crosshair;
+        }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(150, 150, 150, 0.2);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-stone-950 text-stone-200 min-h-screen flex flex-col font-sans transition-colors duration-300 dark selection:bg-bamboo-600 selection:text-white">
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 border-b border-stone-800/60 bg-stone-950/80 backdrop-blur-md px-4 lg:px-8 py-3.5 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-bamboo-600 to-bronze-500 flex items-center justify-center text-stone-950 font-bold shadow-lg shadow-bamboo-900/30">
+                <i data-lucide="scissors" class="w-5 h-5 text-stone-950 stroke-[2.5]"></i>
+            </div>
+            <div>
+                <h1 class="font-serif font-bold text-lg tracking-wide text-stone-100 flex items-center gap-2">
+                    Cut The Thread
+                    <span class="text-xs font-sans font-normal px-2 py-0.5 rounded-full bg-bamboo-900/50 text-bamboo-400 border border-bamboo-800/40">CutTheThread.com</span>
+                </h1>
+            </div>
+        </div>
+
+        <!-- Desktop Tabs -->
+        <nav class="hidden md:flex items-center space-x-1 lg:space-x-2 bg-stone-900/80 p-1 rounded-xl border border-stone-800">
+            <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 text-bamboo-400 bg-stone-800/80">
+                <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+            </button>
+            <button onclick="switchTab('two-arrows')" id="nav-two-arrows" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 text-stone-400 hover:text-stone-200">
+                <i data-lucide="git-fork" class="w-4 h-4"></i> Two Arrows
+            </button>
+            <button onclick="switchTab('rain')" id="nav-rain" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 text-stone-400 hover:text-stone-200">
+                <i data-lucide="cloud-rain" class="w-4 h-4"></i> R.A.I.N. Journey
+            </button>
+            <button onclick="switchTab('quick-cut')" id="nav-quick-cut" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 text-stone-400 hover:text-stone-200">
+                <i data-lucide="zap" class="w-4 h-4"></i> Quick Cut
+            </button>
+            <button onclick="switchTab('journal')" id="nav-journal" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 text-stone-400 hover:text-stone-200">
+                <i data-lucide="book-open" class="w-4 h-4"></i> Journal & Insights
+            </button>
+            <button onclick="switchTab('philosophy')" id="nav-philosophy" class="nav-btn px-3.5 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 text-stone-400 hover:text-stone-200">
+                <i data-lucide="compass" class="w-4 h-4"></i> Philosophy & Sound
+            </button>
+        </nav>
+
+        <div class="flex items-center space-x-2">
+            <button onclick="toggleGlobalAudio()" id="globalAudioBtn" title="Toggle Ambient Audio" class="p-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-400 hover:text-amber-400 transition">
+                <i data-lucide="volume-x" id="globalAudioIcon" class="w-5 h-5"></i>
+            </button>
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2 rounded-xl bg-stone-900 border border-stone-800 text-stone-300">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-b border-stone-800 bg-stone-900/95 px-4 py-3 space-y-2">
+        <button onclick="switchTab('dashboard'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 text-sm text-stone-200 hover:bg-stone-800">
+            <i data-lucide="layout-dashboard" class="w-4 h-4 text-bamboo-400"></i> Dashboard
+        </button>
+        <button onclick="switchTab('two-arrows'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 text-sm text-stone-200 hover:bg-stone-800">
+            <i data-lucide="git-fork" class="w-4 h-4 text-bamboo-400"></i> Two Arrows Tool
+        </button>
+        <button onclick="switchTab('rain'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 text-sm text-stone-200 hover:bg-stone-800">
+            <i data-lucide="cloud-rain" class="w-4 h-4 text-bamboo-400"></i> R.A.I.N. Journey
+        </button>
+        <button onclick="switchTab('quick-cut'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 text-sm text-stone-200 hover:bg-stone-800">
+            <i data-lucide="zap" class="w-4 h-4 text-bamboo-400"></i> Quick Cut (30s Reset)
+        </button>
+        <button onclick="switchTab('journal'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 text-sm text-stone-200 hover:bg-stone-800">
+            <i data-lucide="book-open" class="w-4 h-4 text-bamboo-400"></i> Journal & Insights
+        </button>
+        <button onclick="switchTab('philosophy'); toggleMobileMenu();" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 text-sm text-stone-200 hover:bg-stone-800">
+            <i data-lucide="compass" class="w-4 h-4 text-bamboo-400"></i> Philosophy & Sound
+        </button>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- ==================== TAB 1: DASHBOARD ==================== -->
+        <section id="tab-dashboard" class="tab-content space-y-8">
+            <div class="relative overflow-hidden rounded-3xl glass-panel p-6 sm:p-10 border border-stone-800 bg-gradient-to-br from-stone-900 via-stone-900/90 to-bamboo-950/40">
+                <div class="relative z-10 max-w-2xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-bronze-500/10 border border-bronze-500/30 text-bronze-400 text-xs font-medium">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Sallatha Sutta Wisdom
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-serif font-bold text-stone-100 leading-tight">
+                        "The first arrow is physical pain or sensation. The second arrow is the story we shoot into ourselves."
+                    </h2>
+                    <p class="text-stone-400 text-sm sm:text-base leading-relaxed">
+                        Unnecessary emotional suffering comes from multiplying initial raw feelings into endless narratives. Cut the thread connecting raw experience to mental drama.
+                    </p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="switchTab('two-arrows')" class="px-5 py-2.5 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-semibold text-sm transition shadow-lg shadow-bamboo-950/50 flex items-center gap-2">
+                            <i data-lucide="scissors" class="w-4 h-4"></i> Cut an Entanglement
+                        </button>
+                        <button onclick="switchTab('quick-cut')" class="px-5 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 font-medium text-sm border border-stone-700 transition flex items-center gap-2">
+                            <i data-lucide="zap" class="w-4 h-4 text-bronze-400"></i> Emergency Quick Cut
+                        </button>
+                    </div>
+                </div>
+                <div class="absolute -right-16 -bottom-16 w-80 h-80 rounded-full border-[18px] border-stone-800/30 pointer-events-none animate-pulse-slow"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div onclick="switchTab('two-arrows')" class="group cursor-pointer rounded-2xl glass-panel p-6 border border-stone-800 hover:border-bamboo-700/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-bamboo-950/80 border border-bamboo-800/50 text-bamboo-400 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                        <i data-lucide="git-fork" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-100 group-hover:text-bamboo-400 transition">Two Arrows Tool</h3>
+                    <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+                        Identify raw sensations vs. secondary mental narratives. Slice the story line on the interactive blade canvas.
+                    </p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-bamboo-400 gap-1">
+                        Start Session <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+                <div onclick="switchTab('rain')" class="group cursor-pointer rounded-2xl glass-panel p-6 border border-stone-800 hover:border-bamboo-700/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-blue-950/80 border border-blue-800/50 text-blue-400 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                        <i data-lucide="cloud-rain" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-100 group-hover:text-blue-400 transition">R.A.I.N. Method</h3>
+                    <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+                        4-step reflection: Recognize, Allow, Investigate body sensations, and Nurture non-identification.
+                    </p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-blue-400 gap-1">
+                        Begin Walkthrough <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+                <div onclick="switchTab('quick-cut')" class="group cursor-pointer rounded-2xl glass-panel p-6 border border-stone-800 hover:border-bronze-600/50 transition-all duration-300 hover:-translate-y-1">
+                    <div class="w-12 h-12 rounded-xl bg-bronze-950/80 border border-bronze-800/50 text-bronze-400 flex items-center justify-center mb-4 group-hover:scale-110 transition">
+                        <i data-lucide="zap" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-100 group-hover:text-bronze-400 transition">Prajñā Quick Cut</h3>
+                    <p class="text-xs text-stone-400 mt-2 leading-relaxed">
+                        Spiraling right now? A 30-second rapid slicing reset exercise with audio grounding.
+                    </p>
+                    <div class="mt-4 flex items-center text-xs font-semibold text-bronze-400 gap-1">
+                        Reset Now <i data-lucide="arrow-right" class="w-3.5 h-3.5 group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats Summary -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-4 rounded-2xl border border-stone-800 text-center">
+                    <span class="text-xs text-stone-400 font-medium uppercase tracking-wider">Threads Cut</span>
+                    <p id="dash-stat-cuts" class="text-2xl sm:text-3xl font-bold text-bamboo-400 mt-1">0</p>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-stone-800 text-center">
+                    <span class="text-xs text-stone-400 font-medium uppercase tracking-wider">Avg Clarity</span>
+                    <p id="dash-stat-clarity" class="text-2xl sm:text-3xl font-bold text-amber-400 mt-1">0/10</p>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-stone-800 text-center">
+                    <span class="text-xs text-stone-400 font-medium uppercase tracking-wider">RAIN Journeys</span>
+                    <p id="dash-stat-rain" class="text-2xl sm:text-3xl font-bold text-blue-400 mt-1">0</p>
+                </div>
+                <div class="glass-panel p-4 rounded-2xl border border-stone-800 text-center">
+                    <span class="text-xs text-stone-400 font-medium uppercase tracking-wider">Primary Emotion</span>
+                    <p id="dash-stat-top-emotion" class="text-lg sm:text-xl font-bold text-stone-200 mt-2 truncate">None</p>
+                </div>
+            </div>
+
+            <!-- Recent Logs -->
+            <div class="glass-panel rounded-2xl p-6 border border-stone-800 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-serif font-bold text-lg text-stone-100">Recent Untangle Sessions</h3>
+                    <button onclick="switchTab('journal')" class="text-xs text-bamboo-400 hover:underline">View All Entries</button>
+                </div>
+                <div id="dashboardRecentLogs" class="space-y-3">
+                    <p class="text-sm text-stone-500 italic py-4 text-center">No sessions logged yet. Try cutting an arrow above!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: TWO ARROWS TOOL ==================== -->
+        <section id="tab-two-arrows" class="tab-content hidden space-y-6 max-w-3xl mx-auto">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-stone-100">Two Arrows Detector</h2>
+                <p class="text-sm text-stone-400">Isolate raw sensations from the added story, then slice the thread.</p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-stone-800 space-y-6">
+                <div class="flex items-center justify-between border-b border-stone-800 pb-4 text-xs font-medium text-stone-400">
+                    <span id="arrow-step-indicator" class="text-bamboo-400 font-bold">Step 1 of 3: Event & First Arrow</span>
+                    <div class="flex space-x-1.5">
+                        <div id="dot-1" class="w-2.5 h-2.5 rounded-full bg-bamboo-500"></div>
+                        <div id="dot-2" class="w-2.5 h-2.5 rounded-full bg-stone-800"></div>
+                        <div id="dot-3" class="w-2.5 h-2.5 rounded-full bg-stone-800"></div>
+                    </div>
+                </div>
+
+                <!-- Step 1 -->
+                <div id="arrow-step-1" class="space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-300 mb-2">1. External Event / Trigger</label>
+                        <input type="text" id="arrowTrigger" placeholder="e.g., Unfriendly message from boss / Delayed train" class="w-full bg-stone-900 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-bamboo-500 transition">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-stone-300 mb-2">2. First Arrow (Raw Sensation / Feeling)</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                            <button type="button" onclick="selectEmotionTag('Anxiety')" class="emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300">Anxiety</button>
+                            <button type="button" onclick="selectEmotionTag('Anger')" class="emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300">Anger</button>
+                            <button type="button" onclick="selectEmotionTag('Sadness')" class="emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300">Sadness</button>
+                            <button type="button" onclick="selectEmotionTag('Fear')" class="emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300">Fear</button>
+                            <button type="button" onclick="selectEmotionTag('Attachment')" class="emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300">Attachment</button>
+                            <button type="button" onclick="selectEmotionTag('Frustration')" class="emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300">Frustration</button>
+                        </div>
+                        <input type="text" id="arrowFirst" placeholder="Describe raw physical sensation (e.g., Tightness in jaw, heavy stomach)" class="w-full bg-stone-900 border border-stone-800 rounded-xl px-4 py-3 text-sm text-stone-100 focus:outline-none focus:border-bamboo-500 transition">
+                    </div>
+
+                    <button onclick="goToArrowStep(2)" class="w-full py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm transition flex items-center justify-center gap-2">
+                        Next: Identify Second Arrow <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+
+                <!-- Step 2 -->
+                <div id="arrow-step-2" class="hidden space-y-5">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-rose-400 mb-1">3. Second Arrow (The Mental Narrative)</label>
+                        <p class="text-xs text-stone-400 mb-3">What story are you telling yourself? (e.g., "They don't value my work," "This always happens to me.")</p>
+                        <textarea id="arrowSecond" rows="3" placeholder="Write down the internal judgment or spiraling thought..." class="w-full bg-stone-900 border border-stone-800 rounded-xl p-4 text-sm text-stone-100 focus:outline-none focus:border-rose-500 transition"></textarea>
+                    </div>
+
+                    <div class="bg-stone-900/60 p-4 rounded-xl border border-stone-800 space-y-2">
+                        <label class="block text-xs font-medium text-stone-300">Current Clarity Level (1 = Spiraling, 10 = Calm Awareness)</label>
+                        <input type="range" id="arrowClarityScore" min="1" max="10" value="4" class="w-full accent-bamboo-500">
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button onclick="goToArrowStep(1)" class="w-1/3 py-3 rounded-xl bg-stone-800 text-stone-300 text-sm">Back</button>
+                        <button onclick="goToArrowStep(3)" class="w-2/3 py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm flex items-center justify-center gap-2">
+                            Proceed to Cut Thread <i data-lucide="scissors" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Slicing Canvas -->
+                <div id="arrow-step-3" class="hidden space-y-5 text-center">
+                    <div>
+                        <h3 class="font-serif font-bold text-xl text-stone-100">Sever the Narrative Thread</h3>
+                        <p class="text-xs text-stone-400">Swipe or drag across the glowing red thread to cut the story.</p>
+                    </div>
+
+                    <div class="relative w-full h-60 bg-stone-950 rounded-2xl border border-stone-800 overflow-hidden flex items-center justify-center">
+                        <canvas id="cutCanvas" class="absolute inset-0 w-full h-full"></canvas>
+                        <div id="cutSuccessMsg" class="hidden relative z-10 space-y-2 p-4 animate-bounce">
+                            <div class="w-12 h-12 rounded-full bg-bamboo-500/20 border border-bamboo-500 text-bamboo-400 mx-auto flex items-center justify-center">
+                                <i data-lucide="check" class="w-6 h-6"></i>
+                            </div>
+                            <p class="font-serif font-bold text-lg text-stone-100">Thread Severed!</p>
+                            <p class="text-xs text-stone-400">The story line has collapsed. Only raw presence remains.</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <textarea id="arrowReflections" rows="2" placeholder="Insight note (e.g., 'The emotion is real, but the story is optional.')" class="w-full bg-stone-900 border border-stone-800 rounded-xl p-3 text-xs text-stone-100 focus:outline-none focus:border-bamboo-500"></textarea>
+                        <div class="flex gap-3">
+                            <button onclick="resetCutCanvas()" class="w-1/3 py-3 rounded-xl bg-stone-800 text-stone-300 text-xs">Reset Thread</button>
+                            <button onclick="saveTwoArrowsSession()" class="w-2/3 py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm flex items-center justify-center gap-2">
+                                Save to Journal <i data-lucide="save" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== TAB 3: R.A.I.N. JOURNEY ==================== -->
+        <section id="tab-rain" class="tab-content hidden space-y-6 max-w-3xl mx-auto">
+            <div class="text-center space-y-2">
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-stone-100">R.A.I.N. Guided Journey</h2>
+                <p class="text-sm text-stone-400">Recognize, Allow, Investigate, and Nurture non-self awareness.</p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-stone-800 space-y-6">
+                <div class="grid grid-cols-4 gap-2 text-center border-b border-stone-800 pb-4">
+                    <button id="rain-tab-r" class="py-2 text-xs font-bold rounded-lg bg-bamboo-600 text-stone-950">R - Recognize</button>
+                    <button id="rain-tab-a" class="py-2 text-xs font-bold rounded-lg text-stone-500 bg-stone-900">A - Allow</button>
+                    <button id="rain-tab-i" class="py-2 text-xs font-bold rounded-lg text-stone-500 bg-stone-900">I - Investigate</button>
+                    <button id="rain-tab-n" class="py-2 text-xs font-bold rounded-lg text-stone-500 bg-stone-900">N - Nurture</button>
+                </div>
+
+                <div id="rain-stage-r" class="rain-stage space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-bamboo-400">Step 1: Recognize</span>
+                    <h3 class="text-xl font-serif font-semibold text-stone-100">What is present in your mind right now?</h3>
+                    <input type="text" id="rainRecognizeText" placeholder="e.g., Anxious tightness about presentation, frustration with colleague" class="w-full bg-stone-900 border border-stone-800 rounded-xl p-4 text-sm text-stone-100 focus:outline-none focus:border-bamboo-500">
+                    <button onclick="advanceRainStage('a')" class="w-full py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm">Continue to Allow</button>
+                </div>
+
+                <div id="rain-stage-a" class="rain-stage hidden space-y-6 text-center py-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-bamboo-400">Step 2: Allow</span>
+                    <h3 class="text-xl font-serif font-semibold text-stone-100">Let it be here. Stop resisting.</h3>
+                    <div class="relative w-36 h-36 mx-auto flex items-center justify-center">
+                        <div class="absolute inset-0 rounded-full bg-bamboo-500/20 border-2 border-bamboo-500 animate-breathe"></div>
+                        <span class="text-xs text-bamboo-300 font-mono">Breathe & Soften</span>
+                    </div>
+                    <button onclick="advanceRainStage('i')" class="w-full py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm">Continue to Investigate</button>
+                </div>
+
+                <div id="rain-stage-i" class="rain-stage hidden space-y-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-bamboo-400">Step 3: Investigate</span>
+                    <h3 class="text-xl font-serif font-semibold text-stone-100">Where do you feel this in your body?</h3>
+                    <textarea id="rainInvestigateText" rows="3" placeholder="e.g., Fluttering stomach, shallow breathing, heat in chest..." class="w-full bg-stone-900 border border-stone-800 rounded-xl p-4 text-sm text-stone-100 focus:outline-none focus:border-bamboo-500"></textarea>
+                    <button onclick="advanceRainStage('n')" class="w-full py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm">Continue to Nurture</button>
+                </div>
+
+                <div id="rain-stage-n" class="rain-stage hidden space-y-5">
+                    <span class="text-xs font-bold uppercase tracking-wider text-bamboo-400">Step 4: Nurture & Non-Identification</span>
+                    <h3 class="text-xl font-serif font-semibold text-stone-100">"I am aware of this feeling, but I am not this feeling."</h3>
+                    <textarea id="rainNurtureText" rows="2" placeholder="e.g., 'May I be at peace. This feeling will pass as all feelings do.'" class="w-full bg-stone-900 border border-stone-800 rounded-xl p-3 text-sm text-stone-100 focus:outline-none focus:border-bamboo-500"></textarea>
+                    <button onclick="saveRainSession()" class="w-full py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm flex items-center justify-center gap-2">
+                        Complete & Log RAIN Meditation <i data-lucide="check-circle" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: PRAJÑA QUICK CUT ==================== -->
+        <section id="tab-quick-cut" class="tab-content hidden space-y-6 max-w-2xl mx-auto">
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-bronze-500/10 border border-bronze-500/30 text-bronze-400 text-xs font-semibold">
+                    <i data-lucide="zap" class="w-3.5 h-3.5"></i> Prajñā Wisdom Sword
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-stone-100">30-Second Rapid Spiral Reset</h2>
+                <p class="text-sm text-stone-400">Break reactive thought loops immediately with sensory grounding.</p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-stone-800 text-center space-y-6">
+                <div id="quickCutStep1" class="space-y-4">
+                    <div class="w-20 h-20 rounded-full bg-bronze-950 border border-bronze-600/50 text-bronze-400 flex items-center justify-center mx-auto shadow-lg">
+                        <i data-lucide="scissors" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-stone-100">Name the Active Spiral</h3>
+                    <input type="text" id="quickSpiralInput" placeholder="e.g., 'Replaying conversation with X'" class="w-full bg-stone-900 border border-stone-800 rounded-xl p-3 text-sm text-center text-stone-100 focus:outline-none focus:border-bronze-500">
+                    <button onclick="triggerQuickCutAction()" class="w-full py-3 rounded-xl bg-bronze-500 hover:bg-bronze-400 text-stone-950 font-bold text-sm shadow-lg">
+                        SEVER THIS THOUGHT LOOP NOW
+                    </button>
+                </div>
+
+                <div id="quickCutStep2" class="hidden space-y-6 py-4">
+                    <h3 class="text-2xl font-serif font-bold text-stone-100">Return to Physical Anchors</h3>
+                    <div class="grid grid-cols-5 gap-2 text-center text-xs font-medium">
+                        <div class="bg-stone-900 p-2 rounded-lg border border-stone-800 text-stone-300">5 See</div>
+                        <div class="bg-stone-900 p-2 rounded-lg border border-stone-800 text-stone-300">4 Touch</div>
+                        <div class="bg-stone-900 p-2 rounded-lg border border-stone-800 text-stone-300">3 Hear</div>
+                        <div class="bg-stone-900 p-2 rounded-lg border border-stone-800 text-stone-300">2 Smell</div>
+                        <div class="bg-stone-900 p-2 rounded-lg border border-stone-800 text-stone-300">1 Breath</div>
+                    </div>
+                    <div class="text-3xl font-mono font-bold text-bamboo-400" id="quickCutTimer">20s</div>
+                    <button onclick="finishQuickCut()" class="w-full py-3 rounded-xl bg-bamboo-600 hover:bg-bamboo-500 text-stone-950 font-bold text-sm">
+                        I Am Grounded & Present
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 5: JOURNAL & INSIGHTS ==================== -->
+        <section id="tab-journal" class="tab-content hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-serif font-bold text-stone-100">Reflection Journal & Analytics</h2>
+                    <p class="text-sm text-stone-400">Track how effectively you dismantle secondary arrows over time.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <select id="journalFilter" onchange="renderJournalEntries()" class="bg-stone-900 border border-stone-800 text-xs rounded-xl px-3 py-2 text-stone-300">
+                        <option value="ALL">All Emotion Types</option>
+                        <option value="Anxiety">Anxiety</option>
+                        <option value="Anger">Anger</option>
+                        <option value="Sadness">Sadness</option>
+                        <option value="Fear">Fear</option>
+                        <option value="Attachment">Attachment</option>
+                        <option value="Frustration">Frustration</option>
+                    </select>
+                    <button onclick="exportJournalData()" class="px-3 py-2 bg-stone-900 border border-stone-800 text-stone-300 hover:text-white rounded-xl text-xs flex items-center gap-1.5">
+                        <i data-lucide="download" class="w-3.5 h-3.5"></i> Export CSV
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-5 rounded-2xl border border-stone-800 space-y-3">
+                    <h3 class="text-sm font-semibold text-stone-300 flex items-center gap-2">
+                        <i data-lucide="pie-chart" class="w-4 h-4 text-bamboo-400"></i> Emotion Distribution
+                    </h3>
+                    <div class="h-48 relative flex items-center justify-center">
+                        <canvas id="emotionPieChart"></canvas>
+                    </div>
+                </div>
+                <div class="glass-panel p-5 rounded-2xl border border-stone-800 space-y-3">
+                    <h3 class="text-sm font-semibold text-stone-300 flex items-center gap-2">
+                        <i data-lucide="trending-up" class="w-4 h-4 text-amber-400"></i> Emotional Clarity Trend
+                    </h3>
+                    <div class="h-48 relative">
+                        <canvas id="clarityLineChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="font-serif font-bold text-lg text-stone-100">Saved Logs</h3>
+                <div id="journalEntriesList" class="space-y-3"></div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 6: PHILOSOPHY & AUDIO ==================== -->
+        <section id="tab-philosophy" class="tab-content hidden space-y-8">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-serif font-bold text-stone-100">Buddhist Philosophy & Sound Anchors</h2>
+                <p class="text-sm text-stone-400">Core concepts paired with synthesized meditative sound anchors.</p>
+            </div>
+
+            <!-- Sound Synthesizer -->
+            <div class="glass-panel rounded-3xl p-6 border border-stone-800 space-y-5">
+                <h3 class="font-serif font-bold text-lg text-stone-100 flex items-center gap-2">
+                    <i data-lucide="music" class="w-5 h-5 text-amber-400"></i> Ambient Sound Synthesizer
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-stone-900/80 p-4 rounded-2xl border border-stone-800 flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-stone-200">Singing Bowls</span>
+                            <i data-lucide="bell" class="w-4 h-4 text-amber-400"></i>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="playSingingBowl(216)" class="flex-1 py-1.5 bg-stone-800 hover:bg-stone-700 rounded-lg text-xs font-medium text-stone-300">Deep</button>
+                            <button onclick="playSingingBowl(432)" class="flex-1 py-1.5 bg-stone-800 hover:bg-stone-700 rounded-lg text-xs font-medium text-stone-300">Mid</button>
+                            <button onclick="playSingingBowl(528)" class="flex-1 py-1.5 bg-stone-800 hover:bg-stone-700 rounded-lg text-xs font-medium text-stone-300">High</button>
+                        </div>
+                    </div>
+
+                    <div class="bg-stone-900/80 p-4 rounded-2xl border border-stone-800 flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-stone-200">Zen Drone</span>
+                            <i data-lucide="waves" class="w-4 h-4 text-bamboo-400"></i>
+                        </div>
+                        <button id="droneAudioToggleBtn" onclick="toggleZenDrone()" class="w-full py-2 bg-bamboo-950 border border-bamboo-800/60 hover:bg-bamboo-900 rounded-lg text-xs font-bold text-bamboo-300">
+                            Start Ambient Drone
+                        </button>
+                    </div>
+
+                    <div class="bg-stone-900/80 p-4 rounded-2xl border border-stone-800 flex flex-col justify-between space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-bold text-stone-200">Soft Rain</span>
+                            <i data-lucide="cloud-rain" class="w-4 h-4 text-blue-400"></i>
+                        </div>
+                        <button id="rainAudioToggleBtn" onclick="toggleRainSound()" class="w-full py-2 bg-blue-950 border border-blue-800/60 hover:bg-blue-900 rounded-lg text-xs font-bold text-blue-300">
+                            Start Rain Sound
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conceptual Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-panel p-6 rounded-2xl border border-stone-800 space-y-3">
+                    <h3 class="font-serif font-bold text-lg text-stone-100">Sallatha Sutta (The Two Arrows)</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        When an untrained mind experiences discomfort, it reacts with grief and resistance. It experiences two pains: physical and mental. Like being struck with an arrow, then immediately struck with a second arrow.
+                    </p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-stone-800 space-y-3">
+                    <h3 class="font-serif font-bold text-lg text-stone-100">Taṇhā (Craving & Aversion)</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        *Taṇhā* refers to the mental grip or aversion we bring to raw emotions. Suffering doesn't come from feeling sadness or anger, but from desperately trying to push it away or replay its story.
+                    </p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-stone-800 space-y-3">
+                    <h3 class="font-serif font-bold text-lg text-stone-100">Prajñā (Wisdom Sword)</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        *Prajñā* is clear-sighted wisdom. It acts like a sharp blade that cuts through delusion and over-identification, leaving the mind open, grounded, and clear.
+                    </p>
+                </div>
+                <div class="glass-panel p-6 rounded-2xl border border-stone-800 space-y-3">
+                    <h3 class="font-serif font-bold text-lg text-stone-100">Anattā (Non-Self)</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">
+                        Emotions are temporary weather patterns passing through awareness. Instead of saying "I am anxious," recognize that "Anxiety is currently present."
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-stone-800/60 py-6 text-center text-xs text-stone-500">
+        <p>CutTheThread.com — Rooted in Buddhist philosophy. All reflections saved locally on your device.</p>
+    </footer>
+
+    <!-- JAVASCRIPT APP LOGIC -->
+    <script>
+        let appData = { logs: [] };
+        let selectedEmotionTag = 'Anxiety';
+        let isCanvasCut = false;
+        let chartInstances = {};
+
+        // Audio Context Setup
+        let audioCtx = null;
+        let droneOsc1 = null, droneOsc2 = null, droneGain = null;
+        let rainBufferNode = null, rainGain = null;
+        let isDronePlaying = false, isRainPlaying = false;
+
+        function initAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        window.onload = function() {
+            lucide.createIcons();
+            loadLocalStorageData();
+            initCutCanvas();
+            renderDashboardStats();
+            renderJournalEntries();
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-bamboo-400', 'bg-stone-800/80');
+                btn.classList.add('text-stone-400');
+            });
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if(activeNav) {
+                activeNav.classList.add('text-bamboo-400', 'bg-stone-800/80');
+                activeNav.classList.remove('text-stone-400');
+            }
+
+            if(tabId === 'journal') renderJournalCharts();
+            if(tabId === 'two-arrows') setTimeout(initCutCanvas, 100);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function loadLocalStorageData() {
+            const saved = localStorage.getItem('cutthethread_data');
+            if (saved) {
+                try { appData = JSON.parse(saved); } catch(e) {}
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('cutthethread_data', JSON.stringify(appData));
+            renderDashboardStats();
+        }
+
+        function selectEmotionTag(emotion) {
+            selectedEmotionTag = emotion;
+            document.querySelectorAll('.emotion-tag').forEach(btn => {
+                if(btn.innerText === emotion) {
+                    btn.className = 'emotion-tag text-xs py-2 rounded-lg bg-bamboo-950 border border-bamboo-500 text-bamboo-400';
+                } else {
+                    btn.className = 'emotion-tag text-xs py-2 rounded-lg bg-stone-900 border border-stone-800 text-stone-300';
+                }
+            });
+        }
+
+        function goToArrowStep(step) {
+            document.getElementById('arrow-step-1').classList.add('hidden');
+            document.getElementById('arrow-step-2').classList.add('hidden');
+            document.getElementById('arrow-step-3').classList.add('hidden');
+
+            document.getElementById(`arrow-step-${step}`).classList.remove('hidden');
+
+            document.getElementById('dot-1').className = step >= 1 ? 'w-2.5 h-2.5 rounded-full bg-bamboo-500' : 'w-2.5 h-2.5 rounded-full bg-stone-800';
+            document.getElementById('dot-2').className = step >= 2 ? 'w-2.5 h-2.5 rounded-full bg-bamboo-500' : 'w-2.5 h-2.5 rounded-full bg-stone-800';
+            document.getElementById('dot-3').className = step >= 3 ? 'w-2.5 h-2.5 rounded-full bg-bamboo-500' : 'w-2.5 h-2.5 rounded-full bg-stone-800';
+
+            if(step === 3) setTimeout(initCutCanvas, 100);
+        }
+
+        // Canvas Slicing Engine
+        let canvas, ctx, isDrawing = false, cutPoints = [];
+
+        function initCutCanvas() {
+            canvas = document.getElementById('cutCanvas');
+            if(!canvas) return;
+
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+
+            ctx = canvas.getContext('2d');
+            resetCutCanvas();
+
+            canvas.onmousedown = startCut;
+            canvas.onmousemove = drawCut;
+            canvas.onmouseup = endCut;
+
+            canvas.ontouchstart = (e) => { startCut(e.touches[0]); };
+            canvas.ontouchmove = (e) => { drawCut(e.touches[0]); };
+            canvas.ontouchend = endCut;
+        }
+
+        function resetCutCanvas() {
+            if(!ctx) return;
+            isCanvasCut = false;
+            document.getElementById('cutSuccessMsg').classList.add('hidden');
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.beginPath();
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 4;
+            ctx.shadowColor = '#f43f5e';
+            ctx.shadowBlur = 10;
+
+            const startX = canvas.width * 0.15;
+            const endX = canvas.width * 0.85;
+            const midY = canvas.height * 0.5;
+
+            ctx.moveTo(startX, midY);
+            ctx.bezierCurveTo(canvas.width * 0.3, midY - 60, canvas.width * 0.4, midY + 60, canvas.width * 0.5, midY);
+            ctx.bezierCurveTo(canvas.width * 0.6, midY - 60, canvas.width * 0.7, midY + 60, endX, midY);
+            ctx.stroke();
+
+            ctx.shadowBlur = 0;
+            ctx.font = '12px Inter';
+            ctx.fillStyle = '#a8a29e';
+            ctx.textAlign = 'center';
+            ctx.fillText("Drag/Swipe across to cut thread", canvas.width / 2, midY + 45);
+        }
+
+        function startCut(e) {
+            isDrawing = true;
+            cutPoints = [];
+            addPoint(e);
+        }
+
+        function drawCut(e) {
+            if (!isDrawing) return;
+            addPoint(e);
+
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.shadowColor = '#fbbf24';
+            ctx.shadowBlur = 8;
+            ctx.beginPath();
+            if (cutPoints.length > 1) {
+                ctx.moveTo(cutPoints[cutPoints.length - 2].x, cutPoints[cutPoints.length - 2].y);
+                ctx.lineTo(cutPoints[cutPoints.length - 1].x, cutPoints[cutPoints.length - 1].y);
+                ctx.stroke();
+            }
+
+            const rect = canvas.getBoundingClientRect();
+            const currentY = (e.clientY || e.pageY) - rect.top;
+            if(Math.abs(currentY - canvas.height/2) < 30 && cutPoints.length > 5) {
+                triggerCanvasCutSuccess();
+            }
+        }
+
+        function addPoint(e) {
+            const rect = canvas.getBoundingClientRect();
+            cutPoints.push({
+                x: (e.clientX || e.pageX) - rect.left,
+                y: (e.clientY || e.pageY) - rect.top
+            });
+        }
+
+        function endCut() { isDrawing = false; }
+
+        function triggerCanvasCutSuccess() {
+            if(isCanvasCut) return;
+            isCanvasCut = true;
+
+            playSingingBowl(528);
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#f43f5e';
+            ctx.lineWidth = 3;
+            
+            ctx.beginPath();
+            ctx.moveTo(canvas.width * 0.15, canvas.height * 0.5);
+            ctx.lineTo(canvas.width * 0.42, canvas.height * 0.5 - 20);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(canvas.width * 0.58, canvas.height * 0.5 + 20);
+            ctx.lineTo(canvas.width * 0.85, canvas.height * 0.5);
+            ctx.stroke();
+
+            document.getElementById('cutSuccessMsg').classList.remove('hidden');
+        }
+
+        function saveTwoArrowsSession() {
+            const trigger = document.getElementById('arrowTrigger').value || 'Unspecified Event';
+            const first = document.getElementById('arrowFirst').value || 'Raw Sensation';
+            const second = document.getElementById('arrowSecond').value || 'Added narrative';
+            const clarity = parseInt(document.getElementById('arrowClarityScore').value);
+            const notes = document.getElementById('arrowReflections').value;
+
+            const entry = {
+                id: Date.now(),
+                type: 'Two Arrows',
+                emotion: selectedEmotionTag,
+                trigger,
+                firstArrow: first,
+                secondArrow: second,
+                clarityScore: clarity,
+                notes,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+
+            appData.logs.unshift(entry);
+            saveData();
+
+            document.getElementById('arrowTrigger').value = '';
+            document.getElementById('arrowFirst').value = '';
+            document.getElementById('arrowSecond').value = '';
+            document.getElementById('arrowReflections').value = '';
+            goToArrowStep(1);
+
+            switchTab('dashboard');
+        }
+
+        function advanceRainStage(stage) {
+            document.querySelectorAll('.rain-stage').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`rain-stage-${stage}`).classList.remove('hidden');
+        }
+
+        function saveRainSession() {
+            const recognize = document.getElementById('rainRecognizeText').value || 'Recognized presence';
+            const investigate = document.getElementById('rainInvestigateText').value || 'Body sensations observed';
+            const nurture = document.getElementById('rainNurtureText').value || 'Compassionate stance taken';
+
+            const entry = {
+                id: Date.now(),
+                type: 'RAIN Walkthrough',
+                emotion: 'Overthinking',
+                trigger: recognize,
+                firstArrow: investigate,
+                secondArrow: 'Self-judgment',
+                clarityScore: 8,
+                notes: nurture,
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+
+            appData.logs.unshift(entry);
+            saveData();
+
+            document.getElementById('rainRecognizeText').value = '';
+            document.getElementById('rainInvestigateText').value = '';
+            document.getElementById('rainNurtureText').value = '';
+            advanceRainStage('r');
+
+            switchTab('dashboard');
+        }
+
+        let quickCutTimerInterval;
+        function triggerQuickCutAction() {
+            const input = document.getElementById('quickSpiralInput').value;
+            if(!input) return;
+
+            playSingingBowl(432);
+
+            document.getElementById('quickCutStep1').classList.add('hidden');
+            document.getElementById('quickCutStep2').classList.remove('hidden');
+
+            let seconds = 20;
+            document.getElementById('quickCutTimer').innerText = seconds + 's';
+
+            clearInterval(quickCutTimerInterval);
+            quickCutTimerInterval = setInterval(() => {
+                seconds--;
+                document.getElementById('quickCutTimer').innerText = seconds + 's';
+                if(seconds <= 0) {
+                    clearInterval(quickCutTimerInterval);
+                    document.getElementById('quickCutTimer').innerText = 'Grounding Complete';
+                }
+            }, 1000);
+        }
+
+        function finishQuickCut() {
+            clearInterval(quickCutTimerInterval);
+            const input = document.getElementById('quickSpiralInput').value;
+
+            const entry = {
+                id: Date.now(),
+                type: 'Prajñā Quick Cut',
+                emotion: 'Overthinking',
+                trigger: input,
+                firstArrow: '30s Grounding Reset',
+                secondArrow: 'Severed thought loop',
+                clarityScore: 7,
+                notes: 'Quick cut completed successfully.',
+                date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+
+            appData.logs.unshift(entry);
+            saveData();
+
+            document.getElementById('quickSpiralInput').value = '';
+            document.getElementById('quickCutStep1').classList.remove('hidden');
+            document.getElementById('quickCutStep2').classList.add('hidden');
+
+            switchTab('dashboard');
+        }
+
+        function renderDashboardStats() {
+            const cutsCount = appData.logs.length;
+            document.getElementById('dash-stat-cuts').innerText = cutsCount;
+
+            if(cutsCount > 0) {
+                const totalClarity = appData.logs.reduce((acc, cur) => acc + (cur.clarityScore || 5), 0);
+                document.getElementById('dash-stat-clarity').innerText = `${(totalClarity / cutsCount).toFixed(1)}/10`;
+
+                const rainCount = appData.logs.filter(l => l.type === 'RAIN Walkthrough').length;
+                document.getElementById('dash-stat-rain').innerText = rainCount;
+
+                const counts = {};
+                appData.logs.forEach(l => { counts[l.emotion] = (counts[l.emotion] || 0) + 1; });
+                const topEmotion = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b, 'None');
+                document.getElementById('dash-stat-top-emotion').innerText = topEmotion;
+            }
+
+            const recentContainer = document.getElementById('dashboardRecentLogs');
+            if(appData.logs.length === 0) {
+                recentContainer.innerHTML = `<p class="text-sm text-stone-500 italic py-4 text-center">No sessions logged yet. Try cutting a thread above!</p>`;
+                return;
+            }
+
+            recentContainer.innerHTML = appData.logs.slice(0, 3).map(log => `
+                <div class="bg-stone-900/60 p-3.5 rounded-xl border border-stone-800 flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-bamboo-400 px-2 py-0.5 rounded bg-bamboo-950 border border-bamboo-800">${log.type}</span>
+                            <span class="text-xs text-stone-400 font-mono">${log.date}</span>
+                        </div>
+                        <p class="text-sm font-medium text-stone-200 mt-1">${log.trigger}</p>
+                    </div>
+                    <span class="text-xs font-bold text-amber-400 bg-amber-950/40 px-2.5 py-1 rounded-lg border border-amber-800/40">${log.clarityScore}/10</span>
+                </div>
+            `).join('');
+        }
+
+        function renderJournalEntries() {
+            const container = document.getElementById('journalEntriesList');
+            const filter = document.getElementById('journalFilter').value;
+
+            let logs = appData.logs;
+            if(filter !== 'ALL') logs = logs.filter(l => l.emotion === filter);
+
+            if(logs.length === 0) {
+                container.innerHTML = `<p class="text-sm text-stone-500 italic py-8 text-center">No reflection logs found.</p>`;
+                return;
+            }
+
+            container.innerHTML = logs.map(log => `
+                <div class="glass-panel p-5 rounded-2xl border border-stone-800 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-bamboo-400 bg-bamboo-950 px-2.5 py-0.5 rounded-full border border-bamboo-800">${log.type}</span>
+                            <span class="text-xs text-stone-300 px-2 py-0.5 rounded bg-stone-800">${log.emotion}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs text-stone-500 font-mono">${log.date}</span>
+                            <button onclick="deleteJournalEntry(${log.id})" class="text-stone-500 hover:text-rose-400" title="Delete"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-stone-900/80 p-3 rounded-xl border border-stone-800">
+                        <div><span class="text-stone-400 uppercase font-semibold">1st Arrow:</span><p class="text-stone-200">${log.firstArrow}</p></div>
+                        <div><span class="text-rose-400 uppercase font-semibold">2nd Arrow Story:</span><p class="text-stone-200">${log.secondArrow}</p></div>
+                    </div>
+                    ${log.notes ? `<p class="text-xs text-stone-400 italic">" ${log.notes} "</p>` : ''}
+                </div>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        function deleteJournalEntry(id) {
+            appData.logs = appData.logs.filter(l => l.id !== id);
+            saveData();
+            renderJournalEntries();
+        }
+
+        function exportJournalData() {
+            if(appData.logs.length === 0) return;
+            let csvContent = "data:text/csv;charset=utf-8,ID,Type,Emotion,Trigger,FirstArrow,SecondArrow,ClarityScore,Date\n";
+            appData.logs.forEach(l => {
+                csvContent += `"${l.id}","${l.type}","${l.emotion}","${l.trigger}","${l.firstArrow}","${l.secondArrow}","${l.clarityScore}","${l.date}"\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "CutTheThread_Journal.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function renderJournalCharts() {
+            if(appData.logs.length === 0) return;
+
+            const emotionCounts = {};
+            appData.logs.forEach(l => { emotionCounts[l.emotion] = (emotionCounts[l.emotion] || 0) + 1; });
+
+            const pieCtx = document.getElementById('emotionPieChart').getContext('2d');
+            if(chartInstances.pie) chartInstances.pie.destroy();
+
+            chartInstances.pie = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(emotionCounts),
+                    datasets: [{
+                        data: Object.values(emotionCounts),
+                        backgroundColor: ['#3b8360', '#d4a359', '#3b82f6', '#f43f5e', '#8b5cf6', '#64748b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#a8a29e', font: { size: 10 } } } } }
+            });
+
+            const lineCtx = document.getElementById('clarityLineChart').getContext('2d');
+            if(chartInstances.line) chartInstances.line.destroy();
+
+            const chronologicalLogs = [...appData.logs].reverse().slice(-10);
+
+            chartInstances.line = new Chart(lineCtx, {
+                type: 'line',
+                data: {
+                    labels: chronologicalLogs.map(l => l.date.split(',')[0]),
+                    datasets: [{
+                        label: 'Clarity Score',
+                        data: chronologicalLogs.map(l => l.clarityScore),
+                        borderColor: '#b8823b',
+                        backgroundColor: 'rgba(184, 130, 59, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    scales: { y: { min: 1, max: 10, ticks: { color: '#78716c' }, grid: { color: '#262626' } }, x: { ticks: { color: '#78716c' }, grid: { display: false } } },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        // Web Audio Generators
+        function playSingingBowl(freq = 432) {
+            initAudioContext();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0.6, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 3.5);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + 3.5);
+        }
+
+        function toggleZenDrone() {
+            initAudioContext();
+            const btn = document.getElementById('droneAudioToggleBtn');
+
+            if (!isDronePlaying) {
+                droneOsc1 = audioCtx.createOscillator();
+                droneOsc2 = audioCtx.createOscillator();
+                droneGain = audioCtx.createGain();
+
+                droneOsc1.type = 'sine';
+                droneOsc1.frequency.setValueAtTime(108, audioCtx.currentTime);
+                droneOsc2.type = 'sine';
+                droneOsc2.frequency.setValueAtTime(216, audioCtx.currentTime);
+
+                droneGain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+
+                droneOsc1.connect(droneGain);
+                droneOsc2.connect(droneGain);
+                droneGain.connect(audioCtx.destination);
+
+                droneOsc1.start();
+                droneOsc2.start();
+
+                isDronePlaying = true;
+                btn.innerText = "Stop Ambient Drone";
+            } else {
+                if(droneOsc1) droneOsc1.stop();
+                if(droneOsc2) droneOsc2.stop();
+                isDronePlaying = false;
+                btn.innerText = "Start Ambient Drone";
+            }
+        }
+
+        function toggleRainSound() {
+            initAudioContext();
+            const btn = document.getElementById('rainAudioToggleBtn');
+
+            if (!isRainPlaying) {
+                const bufferSize = audioCtx.sampleRate * 2;
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const output = buffer.getChannelData(0);
+
+                for (let i = 0; i < bufferSize; i++) { output[i] = Math.random() * 2 - 1; }
+
+                rainBufferNode = audioCtx.createBufferSource();
+                rainBufferNode.buffer = buffer;
+                rainBufferNode.loop = true;
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+
+                rainGain = audioCtx.createGain();
+                rainGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+
+                rainBufferNode.connect(filter);
+                filter.connect(rainGain);
+                rainGain.connect(audioCtx.destination);
+
+                rainBufferNode.start();
+                isRainPlaying = true;
+                btn.innerText = "Stop Rain Sound";
+            } else {
+                if(rainBufferNode) rainBufferNode.stop();
+                isRainPlaying = false;
+                btn.innerText = "Start Rain Sound";
+            }
+        }
+
+        function toggleGlobalAudio() {
+            if(isDronePlaying || isRainPlaying) {
+                if(isDronePlaying) toggleZenDrone();
+                if(isRainPlaying) toggleRainSound();
+                document.getElementById('globalAudioIcon').setAttribute('data-lucide', 'volume-x');
+            } else {
+                toggleZenDrone();
+                document.getElementById('globalAudioIcon').setAttribute('data-lucide', 'volume-2');
+            }
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
