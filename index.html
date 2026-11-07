@@ -118,6 +118,10 @@
                     <i data-lucide="timer" class="w-4 h-4 text-[#a3b899]"></i>
                     <span>30s Prajna</span>
                 </button>
+                <button onclick="scrollToSection('observer-section')" class="px-3 py-1.5 rounded raw-btn hover:text-white flex items-center gap-2 whitespace-nowrap">
+                    <i data-lucide="eye" class="w-4 h-4 text-[#a3b899]"></i>
+                    <span>Self-Remembering</span>
+                </button>
                 <button onclick="scrollToSection('journal-section')" class="px-3 py-1.5 rounded raw-btn hover:text-white flex items-center gap-2 whitespace-nowrap">
                     <i data-lucide="book-open" class="w-4 h-4 text-[#a3b899]"></i>
                     <span>Journal</span>
@@ -310,6 +314,46 @@
             </div>
         </section>
 
+        <!-- SELF-REMEMBERING: brief exercises inspired by self-observation practices -->
+        <section id="observer-section" class="space-y-6 scroll-mt-24" aria-labelledby="observer-heading">
+            <div class="border-b border-[#2d332a] pb-4">
+                <div class="text-xs uppercase tracking-widest text-[#a3b899] font-mono mb-2">Three quiet exercises · no score · no account</div>
+                <h2 id="observer-heading" class="text-2xl sm:text-3xl font-bold serif-font text-stone-100 flex items-center gap-2">
+                    <i data-lucide="eye" class="w-6 h-6 text-[#a3b899]"></i>
+                    Self-Remembering: The Observer
+                </h2>
+                <p class="text-sm text-stone-400 mt-2 max-w-3xl">Inspired in part by Fourth Way self-observation. These are optional attention exercises, not diagnoses or treatments. Notice what is present; there is nothing to achieve.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <article class="raw-card rounded-lg p-5 space-y-4">
+                    <div class="flex justify-between items-center"><span class="text-[#a3b899] font-mono text-xs">01 / THE JACKET</span><i data-lucide="shirt" class="w-5 h-5 text-stone-500"></i></div>
+                    <h3 class="serif-font text-2xl text-stone-100">You are not the reaction.</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">Notice an emotion or story. Name it without fighting it. Imagine taking it off like a jacket. You can still feel it without letting it choose your next action.</p>
+                    <label for="jacketFeeling" class="text-xs text-stone-300 block">What reaction is here?</label>
+                    <input id="jacketFeeling" maxlength="120" type="text" autocomplete="off" placeholder="e.g., irritation, fear, worry..." class="w-full bg-[#121411] border border-[#2d332a] rounded px-3 py-2 text-xs text-stone-100 focus:outline-none focus:border-[#a3b899]">
+                    <button type="button" onclick="releaseJacket()" class="raw-btn rounded px-4 py-2 text-xs text-stone-200 w-full">Take off the jacket</button>
+                    <p id="jacketResult" aria-live="polite" class="text-xs text-[#a3b899] min-h-[2.5rem]">No need to erase a feeling. Just notice it.</p>
+                </article>
+                <article class="raw-card rounded-lg p-5 space-y-4">
+                    <div class="flex justify-between items-center"><span class="text-[#a3b899] font-mono text-xs">02 / TWO DIRECTIONS</span><i data-lucide="focus" class="w-5 h-5 text-stone-500"></i></div>
+                    <h3 class="serif-font text-2xl text-stone-100">Outside. And here.</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">For 20 seconds, notice an object or sound around you and, at the same time, notice yourself being here. Keep your eyes open. Breathe normally.</p>
+                    <div class="text-center py-3"><span id="observerTimerDisplay" class="text-5xl serif-font text-stone-100 tabular-nums" role="timer" aria-label="Seconds remaining">20</span><span class="text-xs text-stone-500 ml-2">seconds</span></div>
+                    <button id="observerTimerButton" type="button" onclick="toggleObserverTimer()" class="raw-btn rounded px-4 py-2 text-xs text-stone-200 w-full">Start 20 seconds</button>
+                    <p id="observerTimerHint" aria-live="polite" class="text-xs text-[#a3b899] min-h-[2.5rem]">Notice the room. Notice yourself in the room.</p>
+                </article>
+                <article class="raw-card rounded-lg p-5 space-y-4">
+                    <div class="flex justify-between items-center"><span class="text-[#a3b899] font-mono text-xs">03 / MECHANICAL REACTION</span><i data-lucide="pause-circle" class="w-5 h-5 text-stone-500"></i></div>
+                    <h3 class="serif-font text-2xl text-stone-100">Reaction or choice?</h3>
+                    <p class="text-xs text-stone-400 leading-relaxed">An automatic response arises: defensiveness, anger, fear, judgment. Did you choose the first reaction, or did it happen? You still get to choose what comes next.</p>
+                    <button type="button" onclick="stepReaction()" id="reactionButton" class="raw-btn rounded px-4 py-2 text-xs text-stone-200 w-full">Notice a reaction</button>
+                    <div id="reactionPrompt" aria-live="polite" class="min-h-[5rem] flex items-center text-sm serif-font italic text-[#a3b899]">Did I choose this reaction, or did it happen by itself?</div>
+                    <button type="button" onclick="resetReaction()" class="text-xs text-stone-500 underline hover:text-stone-300">Begin again</button>
+                </article>
+            </div>
+            <p class="text-xs text-stone-500">Nothing you type here is sent or saved by these exercises. If observing a reaction becomes overwhelming, stop, look around, and return to an ordinary activity. This is not a substitute for professional mental health support.</p>
+        </section>
+
         <!-- SECTION 4: MINDFUL JOURNAL & PRACTICE ANALYTICS -->
         <section id="journal-section" class="space-y-6 scroll-mt-24">
             <div class="border-b border-[#2d332a] pb-4">
@@ -420,6 +464,69 @@
             if (el) {
                 el.scrollIntoView({ behavior: 'smooth' });
             }
+        }
+
+        // --- SELF-REMEMBERING TOOLS (private, ephemeral; no stored entries) ---
+        function releaseJacket() {
+            const input = document.getElementById('jacketFeeling');
+            const feeling = input.value.trim();
+            const result = document.getElementById('jacketResult');
+            result.textContent = feeling
+                ? 'There is ' + feeling + '. You can notice it without wearing it. What will you choose next?'
+                : 'A reaction can be here without choosing your next action.';
+            input.value = '';
+        }
+
+        let observerInterval = null;
+        let observerRemaining = 20;
+        function renderObserverTimer() {
+            document.getElementById('observerTimerDisplay').textContent = observerRemaining;
+        }
+        function toggleObserverTimer() {
+            const button = document.getElementById('observerTimerButton');
+            const hint = document.getElementById('observerTimerHint');
+            if (observerInterval !== null) {
+                clearInterval(observerInterval);
+                observerInterval = null;
+                observerRemaining = 20;
+                renderObserverTimer();
+                button.textContent = 'Start 20 seconds';
+                hint.textContent = 'Stopped. Return whenever you like.';
+                return;
+            }
+            observerRemaining = 20;
+            renderObserverTimer();
+            button.textContent = 'Stop / reset';
+            hint.textContent = 'Notice the world. Notice yourself noticing.';
+            const endAt = Date.now() + 20000;
+            observerInterval = setInterval(() => {
+                observerRemaining = Math.max(0, Math.ceil((endAt - Date.now()) / 1000));
+                renderObserverTimer();
+                if (observerRemaining === 0) {
+                    clearInterval(observerInterval);
+                    observerInterval = null;
+                    button.textContent = 'Start again';
+                    hint.textContent = 'Finished. No score. Just return to your day.';
+                }
+            }, 100);
+        }
+
+        const reactionSteps = [
+            'Did I choose this reaction, or did it happen by itself?',
+            'Where do I notice it — in my body, attention, or thoughts?',
+            'Can I allow it to be here without immediately acting on it?',
+            'What is one response I can choose now?'
+        ];
+        let reactionStepIndex = 0;
+        function stepReaction() {
+            reactionStepIndex = (reactionStepIndex + 1) % reactionSteps.length;
+            document.getElementById('reactionPrompt').textContent = reactionSteps[reactionStepIndex];
+            document.getElementById('reactionButton').textContent = reactionStepIndex === reactionSteps.length - 1 ? 'Return to first question' : 'Next observation';
+        }
+        function resetReaction() {
+            reactionStepIndex = 0;
+            document.getElementById('reactionPrompt').textContent = reactionSteps[0];
+            document.getElementById('reactionButton').textContent = 'Notice a reaction';
         }
 
         // --- WEB AUDIO API (ZEN BOWL & DRONE) ---
